@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>타이틀 입력</title>
+<title>TODO</title>
 <jsp:include page="/link.jsp" flush="false"/>
 </head>
 <link rel="stylesheet" href="/webjars/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -55,8 +55,8 @@ max-width:300px;
 		</table>
 		<p>
 		<a href="TodoList.do?page=1&view=all"><input type="button" value="목록" class="btn btn-sm btn-warning"></a>
-		<a href="Todomod.jsp?idx=<%=todo.getIdx()%>"><input type="button" value="수정" class="btn btn-sm btn-info"></a>
-			<a href="TodoDel.jsp?idx=<%=todo.getIdx()%>"><input type="button" value="삭제" class="btn btn-sm btn-danger"></a></p>
+		<a href="TodoMod.do?idx=<%=todo.getIdx()%>"><input type="button" value="수정" class="btn btn-sm btn-info"></a>
+			<a href="TodoDel.do?idx=<%=todo.getIdx()%>"><input type="button" value="삭제" class="btn btn-sm btn-danger"></a></p>
 		</div>
 
       </div>

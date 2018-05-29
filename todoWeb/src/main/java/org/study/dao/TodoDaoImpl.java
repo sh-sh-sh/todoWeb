@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.study.sec.PasswordAuthentication;
@@ -97,13 +98,80 @@ public class TodoDaoImpl implements TodoService {
 
 	@Override
 	public boolean deleteTodo(int idx) {
-		// TODO 자동 생성된 메소드 스텁
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+
+			Connection conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
+			
+			if (conn != null) {
+            } else {
+                System.out.println("DB연결 실패 - deleteTodo");
+            }
+
+			PreparedStatement pstmt = conn.prepareStatement("DELETE FROM todo WHERE idx="+idx);
+
+			int rs=pstmt.executeUpdate();
+			
+			pstmt.close();
+			conn.close();
+			if(rs==1) {
+				return true;
+			}else if(rs==0){
+				System.out.println("에러01 - deleteTodo");
+				return false;
+			}else {
+				System.out.println("에러02 - deleteTodo");
+				return false;
+			}
+			
+		} catch (ClassNotFoundException e) {
+			// TODO �ڵ� ������ catch ���
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO �ڵ� ������ catch ���
+			e.printStackTrace();
+		}
 		return false;
 	}
 
 	@Override
 	public boolean updateTodo(Todo todo) {
-		// TODO 자동 생성된 메소드 스텁
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+
+			Connection conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
+			
+			if (conn != null) {
+            } else {
+                System.out.println("DB연결 실패 - updateTodo");
+            }
+
+			PreparedStatement pstmt = conn.prepareStatement("UPDATE todo SET "
+					+ "category='"+todo.getCategory()+"', title='"+todo.getTitle()
+					+"', content='"+todo.getContent()+"', start_date='"+todo.getStart_date()
+					+"', target_date='"+todo.getTarget_date()+"' WHERE idx="+todo.getIdx());
+				//UPDATE user SET name='',WHERE;
+			int rs=pstmt.executeUpdate();
+			
+			pstmt.close();
+			conn.close();
+			if(rs==1) {
+				return true;
+			}else if(rs==0){
+				System.out.println("에러01 - updateTodo");
+				return false;
+			}else {
+				System.out.println("에러02 - updateTodo");
+				return false;
+			}
+			
+		} catch (ClassNotFoundException ee) {
+			// TODO �ڵ� ������ catch ���
+			ee.printStackTrace();
+		} catch (SQLException ee) {
+			// TODO �ڵ� ������ catch ���
+			ee.printStackTrace();
+		}
 		return false;
 	}
 
@@ -180,6 +248,10 @@ public class TodoDaoImpl implements TodoService {
 						+ "AND MONTH(start_date) <= MONTH(now()) "
 						+ "AND MONTH(target_date) >= MONTH(now()) "
 						+ "AND user_id ='"+id+"' limit ?,"+pager);
+			}else if(view.equals("done")) {
+				pstmt = conn.prepareStatement("SELECT * FROM todo WHERE done=true AND user_id ='"+id+"' limit ?,"+pager);
+			}else if(view.equals("undone")) {
+				pstmt = conn.prepareStatement("SELECT * FROM todo WHERE done=false AND user_id ='"+id+"' limit ?,"+pager);
 			}else {
 				pstmt = conn.prepareStatement("SELECT * FROM todo WHERE user_id ='"+id+"' limit ?,"+pager);
 			}
@@ -247,6 +319,10 @@ public class TodoDaoImpl implements TodoService {
 						+ "AND MONTH(start_date) <= MONTH(now()) "
 						+ "AND MONTH(target_date) >= MONTH(now()) "
 						+ "AND user_id ='"+id+"'");
+			}else if(view.equals("done")) {
+				pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE done=true AND user_id ='"+id+"'");
+			}else if(view.equals("undone")) {
+				pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE done=false AND user_id ='"+id+"'");
 			}else {
 				pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE user_id ='"+id+"'");
 			}
@@ -304,8 +380,9 @@ public class TodoDaoImpl implements TodoService {
 		
 	}
 
+	@SuppressWarnings("resource")
 	@Override
-	public int doneRate(String id, int sort) {
+	public int doneRate(String id, String view) {
 		int all=0;
 		int done=0;
 		try {
@@ -318,14 +395,51 @@ public class TodoDaoImpl implements TodoService {
                 System.out.println("DB연결 실패 - maxpage");
             }
 
-			PreparedStatement pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE user_id='"+id+"'");
+			PreparedStatement pstmt;
+			if(view.equals("today")) {
+				pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE "
+						+ "DATE(start_date) <= DATE(NOW()) AND DATE(target_date) >= DATE(NOW()) "
+						+ "AND user_id ='"+id+"'");
+			}else if(view.equals("week")) {
+				pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE "
+						+ "YEARWEEK(DATE(start_date)-1) <= YEARWEEK(DATE(now())+1) "
+						+ "AND YEARWEEK(DATE(target_date)-1) >= YEARWEEK(DATE(now())+1) "
+						+ "AND user_id ='"+id+"'");
+			}else if(view.equals("month")) {
+				pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE YEAR(start_date) = YEAR(now()) "
+						+ "AND YEAR(target_date) = YEAR(now()) "
+						+ "AND MONTH(start_date) <= MONTH(now()) "
+						+ "AND MONTH(target_date) >= MONTH(now()) "
+						+ "AND user_id ='"+id+"'");
+			}else {
+				pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE user_id ='"+id+"'");
+			}
 			
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				all = rs.getInt("count(*)");
 			}
 
-			pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE done=true AND user_id='"+id+"'");//아직
+//			pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE done=true AND user_id='"+id+"'");//아직
+			if(view.equals("today")) {
+				pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE done=true AND "
+						+ "DATE(start_date) <= DATE(NOW()) AND DATE(target_date) >= DATE(NOW()) "
+						+ "AND user_id ='"+id+"'");
+			}else if(view.equals("week")) {
+				pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE done=true AND "
+						+ "YEARWEEK(DATE(start_date)-1) <= YEARWEEK(DATE(now())+1) "
+						+ "AND YEARWEEK(DATE(target_date)-1) >= YEARWEEK(DATE(now())+1) "
+						+ "AND user_id ='"+id+"'");
+			}else if(view.equals("month")) {
+				pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE done=true AND "
+						+ "YEAR(start_date) = YEAR(now()) "
+						+ "AND YEAR(target_date) = YEAR(now()) "
+						+ "AND MONTH(start_date) <= MONTH(now()) "
+						+ "AND MONTH(target_date) >= MONTH(now()) "
+						+ "AND user_id ='"+id+"'");
+			}else {
+				pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE done=true AND user_id ='"+id+"'");
+			}
 			
 			rs = pstmt.executeQuery();
 			while (rs.next()) {

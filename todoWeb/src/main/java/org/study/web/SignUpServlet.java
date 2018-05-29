@@ -27,13 +27,20 @@ public class SignUpServlet extends HttpServlet {
 		user.setPassword(request.getParameter("password"));
 		user.setEmail(request.getParameter("email"));
 		
-		if(service.addUser(user)) {
-			request.setAttribute("name", user.getName());
-			request.getRequestDispatcher("/WEB-INF/views/signUpOk.jsp").forward(request, response);
+		if(!service.isValidUser(user.getId())) {
+			if(service.addUser(user)) {
+				request.setAttribute("name", user.getName());
+				request.getRequestDispatcher("/WEB-INF/views/signUpOk.jsp").forward(request, response);
+			}else {
+				request.setAttribute("error", "회원가입에 실패했습니다.");
+				request.getRequestDispatcher("login.jsp#signup").forward(request, response);
+			}
 		}else {
-			request.setAttribute("error", "회원가입에 실패했습니다.");
+			request.setAttribute("error", "이미 존재하는 아이디입니다.");
 			request.getRequestDispatcher("login.jsp#signup").forward(request, response);
 		}
+		
+		
 		
 	}
 

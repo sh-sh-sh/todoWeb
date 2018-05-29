@@ -24,7 +24,7 @@ public interface TodoService {
 	
 	public String getCateName(int cat_id);
 	
-	public int doneRate(String id, int sort);
+	public int doneRate(String id, String view);
 	
 	public boolean isCorrectUser(String id, int todoIdx);
 	

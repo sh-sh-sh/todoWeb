@@ -26,7 +26,6 @@ public class LoginServlet extends HttpServlet {
 		String id = request.getParameter("id");
 		String password = request.getParameter("password");
 		String remember= request.getParameter("remember");
-		System.out.println(remember);
 		if (service.isValidUser(id)) {
 			if(service.passwordCheck(id, password)) {
 
@@ -46,7 +45,6 @@ public class LoginServlet extends HttpServlet {
 					response.addCookie(cookie);
 				}
 				
-				System.out.println("orgPath:"+(String)request.getParameter("orgPath"));
 				if(((String)request.getParameter("orgPath")).equals("")) {
 					request.getRequestDispatcher("/WEB-INF/views/welcome.jsp").forward(request, response);
 				}else {

@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>타이틀 입력</title>
 </head>
-<link rel="stylesheet" href="/webjars/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="/webjars/bootstrap/3.3.5/css/bootstrap.css">
 <script src="/webjars/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="/webjars/jquery/2.1.4/jquery.min.js"></script>
 <body>
@@ -36,9 +36,9 @@
 	            <li><a href="TodoList.do?page=1&view=week">이번주 할일</a></li>
 	            <li><a href="TodoList.do?page=1&view=month">이번달 할일</a></li>
 	            <li class="divider"></li>
-	            <li><a href="#">Separated link</a></li>
+	            <li><a href="TodoList.do?page=1&view=undone">미완료한 할일</a></li>
 	            <li class="divider"></li>
-	            <li><a href="#">One more separated link</a></li>
+	            <li><a href="TodoList.do?page=1&view=done">완료한 할일</a></li>
 	          </ul>
 	        </li>
 			<li><a href="addTodo.jsp">할일 추가</a></li>

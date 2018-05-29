@@ -39,7 +39,20 @@ public class TodoListServlet extends HttpServlet {
 			}
 			request.setAttribute("sort", sort);
 			String id=(String)session.getAttribute("userid");
-			if(page<1||page>service.maxpage(id,view)) {
+			if(view.equals("done")&&service.maxpage(id, view)==0) {
+				request.setAttribute("error", "완료한 할 일이 없습니다.");
+				request.setAttribute("list", service.getTodoList(id, page, sort,view));
+				request.setAttribute("page", page);
+				request.getRequestDispatcher("/WEB-INF/views/TodoList.jsp").forward(request, response);
+			}else if(view.equals("undone")&&service.maxpage(id, view)==0) {
+				request.setAttribute("msg", "완료하지 않은 할 일이 없습니다!");
+				request.setAttribute("list", service.getTodoList(id, page, sort,view));
+				request.setAttribute("page", page);
+				request.getRequestDispatcher("/WEB-INF/views/TodoList.jsp").forward(request, response);
+			}else if(service.maxpage(id, view)==0) {
+				request.setAttribute("msg", "등록한 할 일이 없습니다. Todo를 등록하세요!");
+				request.getRequestDispatcher("addTodo.jsp").forward(request, response);
+			}else if(page<1||page>service.maxpage(id,view)) {
 				request.setAttribute("error", "존재하지 않는 페이지에 접근해 1페이지로 이동되었습니다.");
 				request.getRequestDispatcher("TodoList.do?page=1&view="+view).forward(request, response);
 			}else {

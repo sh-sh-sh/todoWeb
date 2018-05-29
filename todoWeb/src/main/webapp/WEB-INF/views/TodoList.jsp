@@ -32,21 +32,36 @@ margin:auto;
 max-width:600px;
 }
 </style>
-<% TodoService service = new TodoDaoImpl(); %>
+<% TodoService service = new TodoDaoImpl();
+String view=request.getParameter("view");%>
 <body>
 <div class="container3">
 	<div class="starter-template">
+	<%if(view.equals("today")){ %>
+	<h1>TODAY'S TODOLIST</h1>
+	<%}else if(view.equals("week")){ %>
+	<h1>WEEKLY TODOLIST</h1>
+	<%}else if(view.equals("month")){ %>
+	<h1>MONTHLY TODOLIST</h1>
+	<%}else if(view.equals("done")){ %>
+	<h1>DONE TODOLIST</h1>
+	<%}else if(view.equals("undone")){ %>
+	<h1>UNDONE TODOLIST</h1>
+	<%}else{ %>
 		<h1>TODOLIST</h1>
+	<%} %>
 		<font color="red">${error}</font>
 		<font color="blue">${msg}</font>
+	<%if(!view.equals("done")&&!view.equals("undone")){ %>
 		<div class="haha">
 		<div class="progress">
   <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 
-  <%= service.doneRate((String)session.getAttribute("userid"), (Integer)request.getAttribute("sort")) %>%">
+  <%= service.doneRate((String)session.getAttribute("userid"), view) %>%">
     <span class="sr-only"></span>
   </div>
   </div>
 </div>
+<%} %>
 		<div class="haha">
 		<table class="table table-bordered">
 			<tr class="cols123">
@@ -74,8 +89,8 @@ max-width:600px;
 				<a href="TodoDone.do?idx=<%=todo.getIdx()%>&done=0"><input type="button" value="취소" class="btn btn-xs btn-warning"></a>
 				<%} %>
 				</td>
-				<td><a href="Todomod.jsp?idx=<%=todo.getIdx()%>"><input type="button" value="수정" class="btn btn-xs btn-info"></a></td>
-				<td><a href="TodoDel.jsp?idx=<%=todo.getIdx()%>"><input type="button" value="삭제" class="btn btn-xs btn-danger"></a></td>
+				<td><a href="TodoMod.do?idx=<%=todo.getIdx()%>"><input type="button" value="수정" class="btn btn-xs btn-info"></a></td>
+				<td><a href="TodoDel.do?idx=<%=todo.getIdx()%>"><input type="button" value="삭제" class="btn btn-xs btn-danger"></a></td>
 			</tr>
 			<%} %>
 		</table>
@@ -84,7 +99,6 @@ max-width:600px;
 <% 
 int a=Integer.parseInt(request.getParameter("page"));
 int pagestart=1+((a-1)/10)*10;
-String view=request.getParameter("view");
 if(pagestart!=1){%>
 <a href="/TodoList.do?page=<%=pagestart-1%>&view=<%=view%>">
 <input type="button" value="☜" class="btn btn-sm btn-info"></a>

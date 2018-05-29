@@ -47,6 +47,12 @@ public class LoginFilter implements Filter {
 			path.append("?").append(req.getQueryString());
 		}
 		
+		if (path.toString().startsWith("/webjars") ||path.toString().startsWith("/css") || path.toString().startsWith("/font") || path.toString().startsWith("/js")) {
+			chain.doFilter(request, response);
+			
+			return;
+		}
+		
 		for (String url : excludedUrls) {
 			if (path.toString().equals(url)) {
 				chain.doFilter(request, response);
