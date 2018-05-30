@@ -38,6 +38,19 @@ html {
     border-radius: 4px;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.281);
     box-sizing: border-box;
+    margin: 40px auto 10px;
+    overflow: hidden;
+  }
+  
+    .container4 {
+    text-align: center;
+    z-index: 15;
+    position: relative;
+    background: rgba(255, 255, 255, 0.466);
+    max-width: 1000px;
+    border-radius: 4px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.281);
+    box-sizing: border-box;
     margin: 50px auto 10px;
     overflow: hidden;
   }

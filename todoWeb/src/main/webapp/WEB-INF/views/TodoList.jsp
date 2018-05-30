@@ -33,6 +33,7 @@ max-width:600px;
 }
 </style>
 <% TodoService service = new TodoDaoImpl();
+List<Todo> list=(List<Todo>)request.getAttribute("list");
 String view=request.getParameter("view");%>
 <body>
 <div class="container3">
@@ -69,7 +70,7 @@ String view=request.getParameter("view");%>
 				<th class="tha">시작일</th><th class="tha">종료일</th><th>달성</th>
 				<th>완료</th><th>수정</th><th>삭제</th>
 			</tr>
-			<% List<Todo> list=(List<Todo>)request.getAttribute("list");
+			<% 
 			 for(int i=0;i<list.size();i++){
 			 Todo todo=list.get(i);%>
 			<tr class="row123">

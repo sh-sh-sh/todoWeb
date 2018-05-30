@@ -58,7 +58,8 @@ public class UserDaoImpl implements UserService {
 
 			Connection conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
 			
-			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM todo_user WHERE id=\""+id+"\"");
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM todo_user WHERE id=?");
+			pstmt.setString(1, id);
 
 			ResultSet rs = pstmt.executeQuery();
 
@@ -92,19 +93,17 @@ public class UserDaoImpl implements UserService {
 			Connection conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
 			
 			if (conn != null) {
-                System.out.println("DB연결 성공 - deleteEmp");
             } else {
-                System.out.println("DB연결 실패 - deleteEmp");
+                System.out.println("DB연결 실패 - deleteUser");
             }
 
-			PreparedStatement pstmt = conn.prepareStatement("DELETE FROM todo_user WHERE id=\""+id+"\"");
-
+			PreparedStatement pstmt = conn.prepareStatement("DELETE FROM todo_user WHERE id=?");
+			pstmt.setString(1, id);
 			int rs=pstmt.executeUpdate();
 			
 			pstmt.close();
 			conn.close();
 			if(rs==1) {
-				System.out.println(id+" : 삭제 성공");
 				return true;
 			}else if(rs==0){
 				System.out.println("에러01 - deleteUser");
@@ -132,22 +131,29 @@ public class UserDaoImpl implements UserService {
 
 			Connection conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
 
-			PreparedStatement pstmt = conn.prepareStatement("UPDATE todo_user SET "
-					+ "password='"+passAuth.hash(user.getPassword().toCharArray())+"', name='"+user.getName()
-					+"', email='"+user.getEmail()+"' WHERE ID="+user.getId());
+//			PreparedStatement pstmt = conn.prepareStatement("UPDATE todo_user SET "
+//					+ "password='"+passAuth.hash(user.getPassword().toCharArray())+"', name='"+user.getName()
+//					+"', email='"+user.getEmail()+"' WHERE id='"+user.getId()+"'");
 				//UPDATE user SET name='',WHERE;
-			int rs=pstmt.executeUpdate();
 			
+			PreparedStatement pstmt = conn.prepareStatement("UPDATE todo_user SET "
+					+ "password=?, name=?, email=? WHERE id=?");
+			pstmt.setString(1, user.getPassword());
+			pstmt.setString(2, user.getName());
+			pstmt.setString(3, user.getEmail());
+			pstmt.setString(4, user.getId());
+			
+			int rs=pstmt.executeUpdate();
+			 
 			pstmt.close();
 			conn.close();
 			if(rs==1) {
-				System.out.println(user.getId()+" : 수정 성공");
 				return true;
 			}else if(rs==0){
-				System.out.println("에러01 - updateEmp");
+				System.out.println("에러01 - updateUser");
 				return false;
 			}else {
-				System.out.println("에러02 - updateteEmp");
+				System.out.println("에러02 - updateUser");
 				return false;
 			}
 			
@@ -168,7 +174,8 @@ public class UserDaoImpl implements UserService {
 
 			Connection conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
 			
-			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM todo_user WHERE id=\""+id+"\"");
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM todo_user WHERE id=?");
+			pstmt.setString(1, id);
 
 			ResultSet rs = pstmt.executeQuery();
 

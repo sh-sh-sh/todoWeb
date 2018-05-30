@@ -19,7 +19,7 @@ import org.study.dao.UserService;
  * Servlet implementation class addTodoServlet
  */
 @WebServlet("/addTodo.do")
-public class addTodoServlet extends HttpServlet {
+public class addTodo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TodoService service=new TodoDaoImpl();
 	private UserService userService=new UserDaoImpl();

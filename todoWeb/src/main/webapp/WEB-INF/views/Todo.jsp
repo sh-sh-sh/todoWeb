@@ -31,9 +31,9 @@ max-width:300px;
 				if(todo.isDone()){done="완료";}else{done="미완료";}%>
 				<%=done%>
 				<%if(!todo.isDone()){ %>
-				<a href="TodoDone.do?idx=<%=todo.getIdx()%>&done=1"><input type="button" value="완료함" class="btn btn-xs btn-success"></a>
+				<a href="TodoDone.do?idx=<%=todo.getIdx()%>&done=1"><input type="button" value="완료하기" class="btn btn-xs btn-success"></a>
 				<%}else{ %>
-				<a href="TodoDone.do?idx=<%=todo.getIdx()%>&done=0"><input type="button" value="미완료함" class="btn btn-xs btn-warning"></a>
+				<a href="TodoDone.do?idx=<%=todo.getIdx()%>&done=0"><input type="button" value="되돌리기" class="btn btn-xs btn-warning"></a>
 				<%} %>
 				
 			</p>

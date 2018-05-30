@@ -41,8 +41,13 @@
                <label for="id">아이디 입력</label>
                <input type="password" name="password" id="password" class="inpt" required="required" placeholder="비밀번호 입력">
      			<label for="password">비밀번호 입력</label>
-               <input type="checkbox" name="remember" id="remember" class="checkbox" checked>
+               <input type="checkbox" name="remember" id="remember" class="checkbox">
                <label for="remember">Remember me</label>
+               <%if(id!=null){%>
+               		<script>
+					$('#remember').prop("checked",true);
+					</script>
+				<%} %>
                <div class="submit-wrap">
                     <input type="submit" value="로그인" class="submit">
                </div>
@@ -50,11 +55,11 @@
         </div>
         <div class="signup-cont cont">
         <form action="/SignUp.do" method="post" >
-        	<input type="text" name="id" id="id" class="inpt" required="required" placeholder="아이디 입력" />
+        	<input type="text" name="id" id="id" class="inpt" required="required" placeholder="아이디 입력"  onKeyDown="checkNumber();"/>
            <label for="id">아이디 입력</label>
            <input type="password" name="password" id="password" class="inpt" required="required" placeholder="비밀번호 입력">
  		   <label for="password">비밀번호 입력</label>
-           <input type="text" name="name" id="name" class="inpt" required="required" placeholder="이름 입력">
+           <input type="text" name="name" id="name" class="inpt" required="required" placeholder="이름 입력" onKeyDown="checkNumber();">
            <label for="name">이름 입력</label>
      	   <input type="email" name="email" id="email" class="inpt" required="required" placeholder="이메일 입력">
            <label for="email">이메일 입력</label>
@@ -89,6 +94,27 @@ $('.container .bg').mousemove(function(e){
     var amountMovedY = (e.pageY * -1 / 9);
     $(this).css('background-position', amountMovedX + 'px ' + amountMovedY + 'px');
 });
+
+
+function checkNumber()
+	{
+	 var objEv = event.srcElement;
+	 var num ="|\"";    //입력을 막을 특수문자 기재.
+	 event.returnValue = true;
+	  
+	 for (var i=0;i<objEv.value.length;i++)
+	 {
+	
+	 if(-1 != num.indexOf(objEv.value.charAt(i)))
+	 event.returnValue = false;
+	 }
+	  
+	 if (!event.returnValue)
+	 {
+	  alert("해당 문자는 입력하실 수 없습니다.");
+	  objEv.value="";
+	 }
+	}
 </script>
 </body>
 </html>

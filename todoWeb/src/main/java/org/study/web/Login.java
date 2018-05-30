@@ -17,7 +17,7 @@ import org.study.dao.UserService;
  * Servlet implementation class LoginServlet
  */
 @WebServlet("/Login.do")
-public class LoginServlet extends HttpServlet {
+public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserService service = new UserDaoImpl();
 	

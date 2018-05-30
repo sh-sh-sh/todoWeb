@@ -16,7 +16,7 @@ import org.study.dao.UserService;
  * Servlet implementation class SignUpServlet
  */
 @WebServlet("/SignUp.do")
-public class SignUpServlet extends HttpServlet {
+public class SignUp extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserService service=new UserDaoImpl();
 
@@ -33,11 +33,11 @@ public class SignUpServlet extends HttpServlet {
 				request.getRequestDispatcher("/WEB-INF/views/signUpOk.jsp").forward(request, response);
 			}else {
 				request.setAttribute("error", "회원가입에 실패했습니다.");
-				request.getRequestDispatcher("login.jsp#signup").forward(request, response);
+				request.getRequestDispatcher("/login.jsp").forward(request, response);
 			}
 		}else {
 			request.setAttribute("error", "이미 존재하는 아이디입니다.");
-			request.getRequestDispatcher("login.jsp#signup").forward(request, response);
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		}
 		
 		

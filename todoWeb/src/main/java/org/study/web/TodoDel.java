@@ -12,21 +12,24 @@ import org.study.dao.TodoDaoImpl;
 import org.study.dao.TodoService;
 
 /**
- * Servlet implementation class TodoModServlet
+ * Servlet implementation class TodoDelServlet
  */
-@WebServlet("/TodoMod.do")
-public class TodoModServlet extends HttpServlet {
+@WebServlet("/TodoDel.do")
+public class TodoDel extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
 	private TodoService service=new TodoDaoImpl();
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int idx=Integer.parseInt(request.getParameter("idx"));
+
 		HttpSession session = request.getSession();
 		if(service.isCorrectUser((String)session.getAttribute("userid"), idx)) {
-			request.setAttribute("todo", service.getTodo(idx));
-			request.getRequestDispatcher("/WEB-INF/views/TodoMod.jsp")
-					.forward(request, response);
+			service.deleteTodo(idx);
+			String orgPath=(String)request.getHeader("Referer"); 
+			response.sendRedirect(orgPath);
 		}else {
-			request.setAttribute("error", "올바르지 않은 접근입니다.");
+			request.setAttribute("error", "해당 TODO를 삭제할 권한이 없습니다.");
 			request.getRequestDispatcher("TodoList.do?page=1&view=all").forward(request, response);
 		}
 	}

@@ -37,14 +37,14 @@ margin:auto;}
 				<tr>
 					<td>시작일</td><td>
 					<div class="inputcss">
-					<input type="text" name="start_date" id="date-start" class="form-control floating-label" placeholder="Start Date">
+					<input type="text" name="start_date" id="date-start"  required="required" class="form-control floating-label" placeholder="Start Date">
 					</div>
 					</td>
 				</tr>
 				<tr>
 					<td>기한/종료일</td><td>
 					<div class="inputcss">
-					<input type="text" name="target_date" id="date-end" class="form-control floating-label" placeholder="End Date">
+					<input type="text" name="target_date" id="date-end"  required="required" class="form-control floating-label" placeholder="End Date">
 					</div>
 					</td>
 				</tr>
@@ -61,11 +61,11 @@ margin:auto;}
 				</tr>
 				<tr>
 					<td>제목</td><td>
-					<input type='text' name="title" class="form-control floating-label" required="required" placeholder="20자 이내로 입력하세요"/>
+					<input type='text' name="title" class="form-control floating-label" required="required" placeholder="20자 이내로 입력하세요" onKeyDown="checkNumber();"/>
 					</td>
 				</tr>
 				<tr>
-					<td>내용</td><td><input type="text" name="content" class="form-control floating-label"  placeholder="입력하지 않으셔도 됩니다."/></td>
+					<td>내용</td><td><input type="text" name="content" class="form-control floating-label"  placeholder="입력하지 않으셔도 됩니다." onKeyDown="checkNumber();"/></td>
 				</tr>
 				
 			</table>
@@ -97,6 +97,27 @@ margin:auto;}
 			$('#min-date').bootstrapMaterialDatePicker({ format : 'YYYY-MM-DD HH:mm', minDate : new Date() });
 
 		});
+
+	    function checkNumber()
+			{
+			 var objEv = event.srcElement;
+			 var num ="|\"";    //입력을 막을 특수문자 기재.
+			 event.returnValue = true;
+			  
+			 for (var i=0;i<objEv.value.length;i++)
+			 {
+			
+			 if(-1 != num.indexOf(objEv.value.charAt(i)))
+			 event.returnValue = false;
+			 }
+			  
+			 if (!event.returnValue)
+			 {
+			  alert("해당 문자는 입력하실 수 없습니다.");
+			  objEv.value="";
+			 }
+			}
+
 		</script>
 </body>
 </html>

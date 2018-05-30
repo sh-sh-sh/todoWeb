@@ -6,6 +6,8 @@ public class User {
 	private String name;
 	private String email;
 	
+	private TodoService service=new TodoDaoImpl();
+	
 	
 	public User() {
 		super();
@@ -48,6 +50,14 @@ public class User {
 	}
 	public String toString() {
 		return "<br>["+id+"]"+name+" | "+email;
+	}
+	
+	public int getTodoNum() {
+		return service.todoCount(id);
+	}
+	
+	public int getDoneNum() {
+		return service.doneCount(id);
 	}
 
 

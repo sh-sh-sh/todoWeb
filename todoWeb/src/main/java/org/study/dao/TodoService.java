@@ -12,6 +12,8 @@ public interface TodoService {
 	
 	public boolean deleteTodo(int idx);
 	
+	public boolean deleteAllTodo(String id);
+	
 	public boolean updateTodo(Todo todo);
 	
 	public boolean isValidTodo(int idx);//존재하는 투두인지
@@ -27,5 +29,9 @@ public interface TodoService {
 	public int doneRate(String id, String view);
 	
 	public boolean isCorrectUser(String id, int todoIdx);
+	
+	public int todoCount(String id);
+	
+	public int doneCount(String id);
 	
 }

@@ -18,7 +18,7 @@ import org.study.dao.UserService;
  * Servlet implementation class ModTodoServlet
  */
 @WebServlet("/ModTodo")
-public class ModTodoServlet extends HttpServlet {
+public class ModTodo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TodoService service=new TodoDaoImpl();
 	private UserService userService=new UserDaoImpl();
@@ -26,20 +26,25 @@ public class ModTodoServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Todo todo =new Todo();
 		HttpSession session = request.getSession();
+		if(request.getParameter("start_date")==null) {
+			request.setAttribute("error", "투두 추가에 실패했습니다.");
+			request.getRequestDispatcher("TodoList.do?page=1&view=all").forward(request, response);
+			return;
+		}
 		
-		StringBuffer Start_date= new StringBuffer((String)request.getParameter("start_date"));
-		StringBuffer Target_date= new StringBuffer((String)request.getParameter("target_date"));
+		StringBuffer Start_date= new StringBuffer(request.getParameter("start_date"));
+		StringBuffer Target_date= new StringBuffer(request.getParameter("target_date"));
 		
 		Start_date.append(":00");
 		Target_date.append(":00");
 		
 		todo.setUser_id((String)session.getAttribute("userid"));
-		todo.setIdx(Integer.parseInt((String)request.getParameter("idx")));
+		todo.setIdx(Integer.parseInt(request.getParameter("idx")));
 		todo.setStart_date(Start_date.toString());
 		todo.setTarget_date(Target_date.toString());
-		todo.setCategory(Integer.parseInt((String)request.getParameter("cate")));
-		todo.setTitle((String)request.getParameter("title"));
-		todo.setContent((String)request.getParameter("content"));
+		todo.setCategory(Integer.parseInt(request.getParameter("cate")));
+		todo.setTitle(request.getParameter("title"));
+		todo.setContent(request.getParameter("content"));
 		
 		if(service.updateTodo(todo)) {
 			request.setAttribute("msg", "투두가 수정되었습니다.");
@@ -47,7 +52,7 @@ public class ModTodoServlet extends HttpServlet {
 			request.getRequestDispatcher("Todo.do?idx="+todo.getIdx()).forward(request, response);
 		}else {
 			request.setAttribute("error", "투두 추가에 실패했습니다.");
-			request.getRequestDispatcher("/WEB-INF/views/TodoMod.do?idx=").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/views/TodoMod.do?idx="+todo.getIdx()).forward(request, response);
 		}
 	}
 

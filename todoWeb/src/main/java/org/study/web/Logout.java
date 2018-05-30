@@ -17,7 +17,7 @@ import org.study.dao.UserService;
  * Servlet implementation class LogoutServlet
  */
 @WebServlet("/Logout.do")
-public class LogoutServlet extends HttpServlet {
+public class Logout extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserService service = new UserDaoImpl();
        
