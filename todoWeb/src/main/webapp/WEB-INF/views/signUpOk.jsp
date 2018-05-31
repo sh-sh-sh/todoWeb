@@ -10,10 +10,10 @@
 <link rel="stylesheet" href="/webjars/bootstrap/3.3.5/css/bootstrap.min.css">
 <script src="/webjars/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="/webjars/jquery/2.1.4/jquery.min.js"></script>
-<link rel="stylesheet" href="css/theme.css">
-<link rel="stylesheet" href="css/index.css">
+<link rel="stylesheet" href="/../css/theme.css">
+<link rel="stylesheet" href="/../css/index.css">
 <body>
-<div class="container2">
+<div class="container4">
 	<div class="starter-template">
 			<h1>${name}님, <br>가입하신 것을 환영합니다!</h1>
 					<p><a href="index.jsp"><input type="button" value="홈" class="btn btn-sm btn-Primary"></a>

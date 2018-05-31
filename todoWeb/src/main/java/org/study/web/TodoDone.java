@@ -49,6 +49,10 @@ public class TodoDone extends HttpServlet {
 				}
 				orgPath=sb.toString();
 			}
+			if(path[3].trim().contains("TodoDel")) {
+				path[3]="Todo.do?idx="+idx;
+				orgPath="TodoList.do?page=1&view=all";
+			}
 //			String Path=orgPath.split("/")[3].trim();
 //			System.out.println(Path);
 //			request.getRequestDispatcher(Path).forward(request, response);

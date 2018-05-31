@@ -26,7 +26,7 @@ public class Logout extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		if(session.getAttribute("userid") !=null) {
-			User user=service.getUser((String)session.getAttribute("userid"));
+//			User user=service.getUser((String)session.getAttribute("userid"));
 			session.invalidate();
 			response.sendRedirect("/index.jsp");
 //			request.getRequestDispatcher("/index.jsp");

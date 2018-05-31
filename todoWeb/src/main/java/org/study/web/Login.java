@@ -45,7 +45,7 @@ public class Login extends HttpServlet {
 					response.addCookie(cookie);
 				}
 				
-				if(((String)request.getParameter("orgPath")).equals("")) {
+				if((request.getParameter("orgPath")).equals("")) {
 					request.getRequestDispatcher("/WEB-INF/views/welcome.jsp").forward(request, response);
 				}else {
 					response.sendRedirect(request.getParameter("orgPath"));

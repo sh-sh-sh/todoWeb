@@ -26,8 +26,9 @@ public class TodoDel extends HttpServlet {
 		HttpSession session = request.getSession();
 		if(service.isCorrectUser((String)session.getAttribute("userid"), idx)) {
 			service.deleteTodo(idx);
-			String orgPath=(String)request.getHeader("Referer"); 
-			response.sendRedirect(orgPath);
+			request.setAttribute("msg", "Todo를 성공적으로 삭제했습니다.");
+//			response.sendRedirect("TodoList.do?page=1&view=all");
+			request.getRequestDispatcher("TodoList.do?page=1&view=all").forward(request, response);
 		}else {
 			request.setAttribute("error", "해당 TODO를 삭제할 권한이 없습니다.");
 			request.getRequestDispatcher("TodoList.do?page=1&view=all").forward(request, response);

@@ -46,13 +46,20 @@ public class ModTodo extends HttpServlet {
 		todo.setTitle(request.getParameter("title"));
 		todo.setContent(request.getParameter("content"));
 		
+		if(todo.getTitle().contains("\"")||todo.getTitle().contains("|")
+				||todo.getContent().contains("\"")||todo.getContent().contains("|")) {
+			request.setAttribute("error", "\"나 |는 입력하실 수 없습니다.");
+			request.getRequestDispatcher("TodoMod.do?idx="+todo.getIdx()).forward(request, response);
+			return;
+		}
+		
 		if(service.updateTodo(todo)) {
 			request.setAttribute("msg", "투두가 수정되었습니다.");
 //			response.sendRedirect();
 			request.getRequestDispatcher("Todo.do?idx="+todo.getIdx()).forward(request, response);
 		}else {
 			request.setAttribute("error", "투두 추가에 실패했습니다.");
-			request.getRequestDispatcher("/WEB-INF/views/TodoMod.do?idx="+todo.getIdx()).forward(request, response);
+			request.getRequestDispatcher("TodoMod.do?idx="+todo.getIdx()).forward(request, response);
 		}
 	}
 

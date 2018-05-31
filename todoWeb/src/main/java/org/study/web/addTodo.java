@@ -28,8 +28,8 @@ public class addTodo extends HttpServlet {
 		Todo todo =new Todo();
 		HttpSession session = request.getSession();
 		
-		StringBuffer Start_date= new StringBuffer((String)request.getParameter("start_date"));
-		StringBuffer Target_date= new StringBuffer((String)request.getParameter("target_date"));
+		StringBuffer Start_date= new StringBuffer(request.getParameter("start_date"));
+		StringBuffer Target_date= new StringBuffer(request.getParameter("target_date"));
 		
 		Start_date.append(":00");
 		Target_date.append(":00");
@@ -37,10 +37,16 @@ public class addTodo extends HttpServlet {
 		todo.setUser_id((String)session.getAttribute("userid"));
 		todo.setStart_date(Start_date.toString());
 		todo.setTarget_date(Target_date.toString());
-		todo.setCategory(Integer.parseInt((String)request.getParameter("cate")));
-		todo.setTitle((String)request.getParameter("title"));
-		todo.setContent((String)request.getParameter("content"));
+		todo.setCategory(Integer.parseInt(request.getParameter("cate")));
+		todo.setTitle(request.getParameter("title"));
+		todo.setContent(request.getParameter("content"));
 		
+		if(todo.getTitle().contains("\"")||todo.getTitle().contains("|")
+				||todo.getContent().contains("\"")||todo.getContent().contains("|")) {
+			request.setAttribute("error", "\"나 |는 입력하실 수 없습니다.");
+			request.getRequestDispatcher("addTodo.jsp").forward(request, response);
+			return;
+		}
 		if(service.addTodo(todo)) {
 //			request.setAttribute("msg", "투두가 추가되었습니다.");
 			response.sendRedirect("TodoList.do?page=1&view=all");

@@ -34,19 +34,27 @@ public class ModUser extends HttpServlet {
 			return;
 		}
 //passAuth.authenticate((String)request.getParameter("password"), e.getPassword())
-		if(passAuth.authenticate(((String)request.getParameter("password")).toCharArray(), user.getPassword())) {
-			user.setPassword((String)request.getParameter("password"));
-			if(((String)request.getParameter("newpassword")).length()>0) {
-				if(((String)request.getParameter("newpassword")).equals((String)request.getParameter("newpasswordC"))) {
-					user.setPassword((String)request.getParameter("newpassword"));
+		if(passAuth.authenticate(request.getParameter("password").toCharArray(), user.getPassword())) {
+			user.setPassword(request.getParameter("password"));
+			if(request.getParameter("newpassword").length()>0) {
+				if(request.getParameter("newpassword").equals(request.getParameter("newpasswordC"))) {
+					user.setPassword(request.getParameter("newpassword"));
 				}else {
 					request.setAttribute("error", "변경할 비밀번호와 확인이 일치하지 않습니다.");
 					request.getRequestDispatcher("UserMod.do").forward(request, response);
 					return;
 				}
 			}
-			user.setName((String)request.getParameter("name"));
-			user.setEmail((String)request.getParameter("email"));
+			user.setName(request.getParameter("name"));
+			
+			if(user.getName().contains("\"")||user.getName().contains("|")) {
+				request.setAttribute("error", "\"나 |는 입력하실 수 없습니다.");
+				request.getRequestDispatcher("UserMod.do").forward(request, response);
+				return;
+			}
+			
+			user.setEmail(request.getParameter("email"));
+			
 			boolean rs=service.updateUser(user);
 			if(rs) {
 				request.setAttribute("msg", "정보를 수정하였습니다.");

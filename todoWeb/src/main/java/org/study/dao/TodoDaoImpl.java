@@ -292,8 +292,8 @@ public class TodoDaoImpl implements TodoService {
 						+ "AND user_id =? limit ?,"+pager);
 			}else if(view.equals("week")) {
 				pstmt = conn.prepareStatement("SELECT * FROM todo WHERE "
-						+ "YEARWEEK(DATE(start_date)-1) <= YEARWEEK(DATE(now())+1) "
-						+ "AND YEARWEEK(DATE(target_date)-1) >= YEARWEEK(DATE(now())+1) "
+						+ "YEARWEEK(DATE(start_date)-1) <= YEARWEEK(DATE(now())-1) "
+						+ "AND YEARWEEK(DATE(target_date)-1) >= YEARWEEK(DATE(now())-1) "
 						+ "AND user_id =? limit ?,"+pager);
 			}else if(view.equals("month")) {
 				pstmt = conn.prepareStatement("SELECT * FROM todo WHERE YEAR(start_date) = YEAR(now()) "
@@ -363,8 +363,8 @@ public class TodoDaoImpl implements TodoService {
 						+ "AND user_id =?");
 			}else if(view.equals("week")) {
 				pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE "
-						+ "YEARWEEK(DATE(start_date)-1) <= YEARWEEK(DATE(now())+1) "
-						+ "AND YEARWEEK(DATE(target_date)-1) >= YEARWEEK(DATE(now())+1) "
+						+ "YEARWEEK(DATE(start_date)-1) <= YEARWEEK(DATE(now())-1) "
+						+ "AND YEARWEEK(DATE(target_date)-1) >= YEARWEEK(DATE(now())-1) "
 						+ "AND user_id =?");
 			}else if(view.equals("month")) {
 				pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE YEAR(start_date) = YEAR(now()) "
@@ -458,8 +458,8 @@ public class TodoDaoImpl implements TodoService {
 						+ "AND user_id =?");
 			}else if(view.equals("week")) {
 				pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE "
-						+ "YEARWEEK(DATE(start_date)-1) <= YEARWEEK(DATE(now())+1) "
-						+ "AND YEARWEEK(DATE(target_date)-1) >= YEARWEEK(DATE(now())+1) "
+						+ "YEARWEEK(DATE(start_date)-1) <= YEARWEEK(DATE(now())-1) "
+						+ "AND YEARWEEK(DATE(target_date)-1) >= YEARWEEK(DATE(now())-1) "
 						+ "AND user_id =?");
 			}else if(view.equals("month")) {
 				pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE YEAR(start_date) = YEAR(now()) "
@@ -488,8 +488,8 @@ public class TodoDaoImpl implements TodoService {
 						+ "AND user_id =?");
 			}else if(view.equals("week")) {
 				pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE done=true AND "
-						+ "YEARWEEK(DATE(start_date)-1) <= YEARWEEK(DATE(now())+1) "
-						+ "AND YEARWEEK(DATE(target_date)-1) >= YEARWEEK(DATE(now())+1) "
+						+ "YEARWEEK(DATE(start_date)-1) <= YEARWEEK(DATE(now())-1) "
+						+ "AND YEARWEEK(DATE(target_date)-1) >= YEARWEEK(DATE(now())-1) "
 						+ "AND user_id =?");
 			}else if(view.equals("month")) {
 				pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE done=true AND "

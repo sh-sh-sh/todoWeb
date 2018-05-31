@@ -27,6 +27,13 @@ public class SignUp extends HttpServlet {
 		user.setPassword(request.getParameter("password"));
 		user.setEmail(request.getParameter("email"));
 		
+		if(user.getId().contains("\"")||user.getId().contains("|")
+				||user.getName().contains("\"")||user.getName().contains("|")) {
+			request.setAttribute("error", "\"나 |는 입력하실 수 없습니다.");
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
+			return;
+		}
+		
 		if(!service.isValidUser(user.getId())) {
 			if(service.addUser(user)) {
 				request.setAttribute("name", user.getName());

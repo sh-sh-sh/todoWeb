@@ -138,7 +138,8 @@ public class UserDaoImpl implements UserService {
 			
 			PreparedStatement pstmt = conn.prepareStatement("UPDATE todo_user SET "
 					+ "password=?, name=?, email=? WHERE id=?");
-			pstmt.setString(1, user.getPassword());
+			String token = passAuth.hash(user.getPassword().toCharArray());
+			pstmt.setString(1, token);
 			pstmt.setString(2, user.getName());
 			pstmt.setString(3, user.getEmail());
 			pstmt.setString(4, user.getId());
