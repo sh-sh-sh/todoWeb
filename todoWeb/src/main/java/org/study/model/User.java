@@ -1,4 +1,7 @@
-package org.study.dao;
+package org.study.model;
+
+import org.study.dao.TodoDaoImpl;
+import org.study.dao.TodoService;
 
 public class User {
 	private String id;

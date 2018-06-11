@@ -2,6 +2,8 @@ package org.study.dao;
 
 import java.util.List;
 
+import org.study.model.User;
+
 public interface UserService {
 	public boolean addUser(User user);
 	//user를 DB에 insert하고 성공 여부를 반환함

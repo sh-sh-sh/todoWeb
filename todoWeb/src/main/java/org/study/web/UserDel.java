@@ -11,9 +11,9 @@ import javax.servlet.http.HttpSession;
 
 import org.study.dao.TodoDaoImpl;
 import org.study.dao.TodoService;
-import org.study.dao.User;
 import org.study.dao.UserDaoImpl;
 import org.study.dao.UserService;
+import org.study.model.User;
 import org.study.sec.PasswordAuthentication;
 
 /**

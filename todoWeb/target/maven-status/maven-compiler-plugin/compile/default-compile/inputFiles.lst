@@ -1,7 +1,7 @@
-C:\Users\201-15\git\todo\todoWeb\src\main\java\org\study\dao\Todo.java
 C:\Users\201-15\git\todo\todoWeb\src\main\java\org\study\web\TodoList.java
 C:\Users\201-15\git\todo\todoWeb\src\main\java\org\study\web\UserMod.java
 C:\Users\201-15\git\todo\todoWeb\src\main\java\org\study\dao\UserService.java
+C:\Users\201-15\git\todo\todoWeb\src\main\java\org\study\model\Todo.java
 C:\Users\201-15\git\todo\todoWeb\src\main\java\org\study\web\TodoView.java
 C:\Users\201-15\git\todo\todoWeb\src\main\java\org\study\web\Profile.java
 C:\Users\201-15\git\todo\todoWeb\src\main\java\org\study\dao\TodoService.java
@@ -10,7 +10,6 @@ C:\Users\201-15\git\todo\todoWeb\src\main\java\org\study\web\UserDel.java
 C:\Users\201-15\git\todo\todoWeb\src\main\java\org\study\dao\UserDaoImpl.java
 C:\Users\201-15\git\todo\todoWeb\src\main\java\org\study\web\Login.java
 C:\Users\201-15\git\todo\todoWeb\src\main\java\org\study\web\ModTodo.java
-C:\Users\201-15\git\todo\todoWeb\src\main\java\org\study\dao\User.java
 C:\Users\201-15\git\todo\todoWeb\src\main\java\org\study\web\Logout.java
 C:\Users\201-15\git\todo\todoWeb\src\main\java\org\study\web\TodoDel.java
 C:\Users\201-15\git\todo\todoWeb\src\main\java\org\study\web\TodoDone.java
@@ -18,5 +17,6 @@ C:\Users\201-15\git\todo\todoWeb\src\main\java\org\study\web\SignUp.java
 C:\Users\201-15\git\todo\todoWeb\src\main\java\org\study\dao\TodoDaoImpl.java
 C:\Users\201-15\git\todo\todoWeb\src\main\java\org\study\filter\LoginFilter.java
 C:\Users\201-15\git\todo\todoWeb\src\main\java\org\study\web\ModUser.java
+C:\Users\201-15\git\todo\todoWeb\src\main\java\org\study\model\User.java
 C:\Users\201-15\git\todo\todoWeb\src\main\java\org\study\web\TodoMod.java
 C:\Users\201-15\git\todo\todoWeb\src\main\java\org\study\sec\PasswordAuthentication.java

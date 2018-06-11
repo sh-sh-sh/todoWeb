@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.study.model.User;
 import org.study.sec.PasswordAuthentication;
 
 public class UserDaoImpl implements UserService {

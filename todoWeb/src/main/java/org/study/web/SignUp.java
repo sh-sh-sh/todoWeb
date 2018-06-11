@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.study.dao.User;
 import org.study.dao.UserDaoImpl;
 import org.study.dao.UserService;
+import org.study.model.User;
 
 /**
  * Servlet implementation class SignUpServlet

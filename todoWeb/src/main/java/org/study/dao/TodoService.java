@@ -2,6 +2,8 @@ package org.study.dao;
 
 import java.util.List;
 
+import org.study.model.Todo;
+
 public interface TodoService {
 	
 	int pager=10;//한 페이지에 몇개의 todo를 표시할 것인지 담은 변수

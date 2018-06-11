@@ -1,8 +1,11 @@
-package org.study.dao;
+package org.study.model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.study.dao.TodoDaoImpl;
+import org.study.dao.TodoService;
 
 public class Todo {
 	private int idx;

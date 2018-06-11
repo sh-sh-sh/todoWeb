@@ -39,6 +39,23 @@ public class TodoList extends HttpServlet {
 			}
 			request.setAttribute("sort", sort);
 			String id=(String)session.getAttribute("userid");
+			
+			request.setAttribute("doneRate", service.doneRate(id, view));
+			request.setAttribute("maxpage", service.maxpage(id, view));
+			
+			request.setAttribute("title", "TODOLIST");
+			if(view.equals("done")) {
+				request.setAttribute("title", "DONE LIST");
+			}else if(view.equals("undone")) {
+				request.setAttribute("title", "UNDONE TODOLIST");
+			}else if(view.equals("today")) {
+				request.setAttribute("title", "TODAY'S TODOLIST");
+			}else if(view.equals("week")) {
+				request.setAttribute("title", "WEEKLY TODOLIST");
+			}else if(view.equals("month")) {
+				request.setAttribute("title", "MONTHLY TODOLIST");
+			}
+			
 			if(service.maxpage(id, "all")==0) {
 				request.setAttribute("msg", "등록한 할 일이 없습니다. Todo를 등록하세요!");
 				request.getRequestDispatcher("addTodo.jsp").forward(request, response);

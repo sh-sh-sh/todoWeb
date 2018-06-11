@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.study.model.Todo;
 import org.study.sec.PasswordAuthentication;
 
 public class TodoDaoImpl implements TodoService {

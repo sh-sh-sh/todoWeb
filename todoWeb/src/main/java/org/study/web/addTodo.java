@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.study.dao.Todo;
 import org.study.dao.TodoDaoImpl;
 import org.study.dao.TodoService;
 import org.study.dao.UserDaoImpl;
 import org.study.dao.UserService;
+import org.study.model.Todo;
 
 /**
  * Servlet implementation class addTodoServlet
