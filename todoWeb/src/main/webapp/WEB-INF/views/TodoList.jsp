@@ -72,16 +72,25 @@ String view=request.getParameter("view");%>
 			</tr>
 			<% 
 			 for(int i=0;i<list.size();i++){
-			 Todo todo=list.get(i);%>
+			 Todo todo=list.get(i);
+			 if(todo.getTitle().length()>9){
+				 todo.setTitle(todo.getTitle().substring(0, 8)+"…");
+			 }
+			 %>
 			<tr class="row123">
-				<td><span class="label label-default"><%=todo.getCateName()%></span></td><td><a href="Todo.do?idx=<%=todo.getIdx()%>"><%=todo.getTitle()%></td>
-				<td><%=todo.getStart_date()%></td><td><%=todo.getTarget_date()%></td>
+				<td><span class="label label-default"><%=todo.getCateName()%></span></td><td><a href="Todo.do?idx=<%=todo.getIdx()%>"><%=todo.getTitle()%></a></td>
+				<td><%=todo.getStart_date_listver()%></td><td><%=todo.getTarget_date_listver()%></td>
 				<% String done;
-				if(todo.isDone()){
-					done="O";
-				}else{
-					done="X";
-				}%>
+					if(todo.isDone()){
+						done="O";
+					}else{
+						if(todo.getPast()){
+							done="지남";
+						}else{
+							done="X";
+						}
+					}
+				%>
 				<td><%=done %></td>
 				<td>
 				<%if(!todo.isDone()){ %>

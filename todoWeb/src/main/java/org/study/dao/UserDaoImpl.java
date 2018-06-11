@@ -14,7 +14,7 @@ public class UserDaoImpl implements UserService {
 	static final String USER_NAME = "sh";
 	static final String PASSWORD = "12341234";
 	
-	private static Connection getConnection() {
+	private static Connection getConnection() {//db에 연결함
 		Connection conn=null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -27,7 +27,7 @@ public class UserDaoImpl implements UserService {
 	}
 
 	@Override
-	public boolean addUser(User user) {
+	public boolean addUser(User user) {//user를 DB에 insert하고 성공 여부를 반환함
 		int status = 0;
 		try {
 			PasswordAuthentication passAuth = new PasswordAuthentication();
@@ -52,11 +52,10 @@ public class UserDaoImpl implements UserService {
 
 	@Override
 	public User getUser(String id) {
+		//DB에서 id에 해당하는 유저를 User 객체로 반환함
 		User user=new User();
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			Connection conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
+			Connection conn=getConnection();
 			
 			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM todo_user WHERE id=?");
 			pstmt.setString(1, id);
@@ -75,9 +74,6 @@ public class UserDaoImpl implements UserService {
 			rs.close();
 			pstmt.close();
 			conn.close();
-		} catch (ClassNotFoundException e) {
-			// TODO �ڵ� ������ catch ���
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO �ڵ� ������ catch ���
 			e.printStackTrace();
@@ -87,15 +83,9 @@ public class UserDaoImpl implements UserService {
 
 	@Override
 	public boolean deleteUser(String id) {
+		//db에서 id에 해당하는 유저를 지우고 성공 여부를 반환함
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			Connection conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-			
-			if (conn != null) {
-            } else {
-                System.out.println("DB연결 실패 - deleteUser");
-            }
+			Connection conn=getConnection();
 
 			PreparedStatement pstmt = conn.prepareStatement("DELETE FROM todo_user WHERE id=?");
 			pstmt.setString(1, id);
@@ -113,9 +103,6 @@ public class UserDaoImpl implements UserService {
 				return false;
 			}
 			
-		} catch (ClassNotFoundException e) {
-			// TODO �ڵ� ������ catch ���
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO �ڵ� ������ catch ���
 			e.printStackTrace();
@@ -125,16 +112,11 @@ public class UserDaoImpl implements UserService {
 
 	@Override
 	public boolean updateUser(User user) {
+		//db에서 user를 업데이트하고 성공 여부를 반환함
 		try {
 			PasswordAuthentication passAuth = new PasswordAuthentication();
-			Class.forName("com.mysql.jdbc.Driver");
 
-			Connection conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-
-//			PreparedStatement pstmt = conn.prepareStatement("UPDATE todo_user SET "
-//					+ "password='"+passAuth.hash(user.getPassword().toCharArray())+"', name='"+user.getName()
-//					+"', email='"+user.getEmail()+"' WHERE id='"+user.getId()+"'");
-				//UPDATE user SET name='',WHERE;
+			Connection conn=getConnection();
 			
 			PreparedStatement pstmt = conn.prepareStatement("UPDATE todo_user SET "
 					+ "password=?, name=?, email=? WHERE id=?");
@@ -158,9 +140,6 @@ public class UserDaoImpl implements UserService {
 				return false;
 			}
 			
-		} catch (ClassNotFoundException ee) {
-			// TODO �ڵ� ������ catch ���
-			ee.printStackTrace();
 		} catch (SQLException ee) {
 			// TODO �ڵ� ������ catch ���
 			ee.printStackTrace();
@@ -169,11 +148,10 @@ public class UserDaoImpl implements UserService {
 	}
 
 	@Override
-	public boolean isValidUser(String id) {//존재하는 유저면 true
+	public boolean isValidUser(String id) {
+		//db에 id에 해당하는 유저가 있으면 true를 반환함
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			Connection conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
+			Connection conn=getConnection();
 			
 			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM todo_user WHERE id=?");
 			pstmt.setString(1, id);
@@ -191,9 +169,6 @@ public class UserDaoImpl implements UserService {
 				conn.close();
 				return false;
 			}
-		} catch (ClassNotFoundException e) {
-			// TODO �ڵ� ������ catch ���
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO �ڵ� ������ catch ���
 			e.printStackTrace();
@@ -203,6 +178,7 @@ public class UserDaoImpl implements UserService {
 
 	@Override
 	public boolean passwordCheck(String id, String password) {
+		//id에 해당하는 유저의 패스워드가 password와 일치하면 true를 반환함
 		PasswordAuthentication passAuth = new PasswordAuthentication();
 		User user=getUser(id);
 		if(passAuth.authenticate(password.toCharArray(), user.getPassword())) {

@@ -4,6 +4,7 @@
 html {
     width: 100%;
     min-height: 100%;
+    padding:10px;
   }
   
   body {
@@ -17,6 +18,7 @@ html {
     -moz-osx-font-smoothing: grayscale;
   }
   .container2 {
+  	padding:10px;
     text-align: center;
     z-index: 15;
     position: relative;
@@ -30,6 +32,7 @@ html {
   }
   
   .container3 {
+    padding:10px;
     text-align: center;
     z-index: 15;
     position: relative;
@@ -43,6 +46,7 @@ html {
   }
   
     .container4 {
+    padding:10px;
     text-align: center;
     z-index: 15;
     position: relative;
@@ -144,3 +148,4 @@ html {
     }
     
   }
+}

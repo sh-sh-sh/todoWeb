@@ -47,10 +47,15 @@ public class ModUser extends HttpServlet {
 			}
 			user.setName(request.getParameter("name"));
 			
-			if(user.getName().contains("\"")||user.getName().contains("|")) {
-				request.setAttribute("error", "\"나 |는 입력하실 수 없습니다.");
-				request.getRequestDispatcher("UserMod.do").forward(request, response);
-				return;
+			String ex="\"|<>{}";
+			
+			for(int i=0;i<ex.length();i++) {
+				if(user.getId().contains(Character.toString(ex.charAt(i)))
+						||user.getName().contains(Character.toString(ex.charAt(i)))) {
+					request.setAttribute("error", "\",|,<,>,{,}는 입력하실 수 없습니다.");
+					request.getRequestDispatcher("UserMod.do").forward(request, response);
+					return;
+				}
 			}
 			
 			user.setEmail(request.getParameter("email"));

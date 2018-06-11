@@ -27,7 +27,7 @@ public class ModTodo extends HttpServlet {
 		Todo todo =new Todo();
 		HttpSession session = request.getSession();
 		if(request.getParameter("start_date")==null) {
-			request.setAttribute("error", "투두 추가에 실패했습니다.");
+			request.setAttribute("error", "투두 수정에 실패했습니다.");
 			request.getRequestDispatcher("TodoList.do?page=1&view=all").forward(request, response);
 			return;
 		}
@@ -46,16 +46,25 @@ public class ModTodo extends HttpServlet {
 		todo.setTitle(request.getParameter("title"));
 		todo.setContent(request.getParameter("content"));
 		
-		if(todo.getTitle().contains("\"")||todo.getTitle().contains("|")
-				||todo.getContent().contains("\"")||todo.getContent().contains("|")) {
-			request.setAttribute("error", "\"나 |는 입력하실 수 없습니다.");
-			request.getRequestDispatcher("TodoMod.do?idx="+todo.getIdx()).forward(request, response);
+		if(!service.isCorrectUser(todo.getUser_id(),todo.getIdx())) {
+			request.setAttribute("error", "할일 수정에 실패했습니다. 해당 할일을 수정할 권한이 없습니다.");
+			request.getRequestDispatcher("TodoList.do?page=1&view=all").forward(request, response);
 			return;
+		}
+		
+		String ex="\"|<>{}";
+		
+		for(int i=0;i<ex.length();i++) {
+			if(todo.getTitle().contains(Character.toString(ex.charAt(i)))
+					||todo.getContent().contains(Character.toString(ex.charAt(i)))) {
+				request.setAttribute("error", "\",|,<,>,{,}는 입력하실 수 없습니다.");
+				request.getRequestDispatcher("TodoMod.do?idx="+todo.getIdx()).forward(request, response);
+				return;
+			}
 		}
 		
 		if(service.updateTodo(todo)) {
 			request.setAttribute("msg", "투두가 수정되었습니다.");
-//			response.sendRedirect();
 			request.getRequestDispatcher("Todo.do?idx="+todo.getIdx()).forward(request, response);
 		}else {
 			request.setAttribute("error", "투두 추가에 실패했습니다.");

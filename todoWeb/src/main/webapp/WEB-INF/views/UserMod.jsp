@@ -37,25 +37,28 @@ max-width:300px;
 				<td>이름 : </td><td>
 					<div class="inputcss">
 					<input type="text" required="required" name="name" id="name" 
-					class="form-control floating-label" placeholder="20글자 이내" value="<%=user.getName()%>" onKeyDown="checkNumber();">
+					class="form-control floating-label" placeholder="2자 이상 20자 이하 필수" 
+					value="<%=user.getName()%>" onKeyDown="checkNumber();" maxlength="20" pattern=".{2,20}">
 					</div>
 					</td>
 			</tr>
 			<tr>
 				<td>기존 비밀번호 : </td><td><input type='password' required="required" 
-				placeholder="필수 입력" class="form-control floating-label" name="password"/></td>
+				placeholder="필수 입력" class="form-control floating-label" name="password" maxlength="20" pattern=".{2,20}"/></td>
 			</tr>
 			<tr>
 				<td>변경할 비밀번호 : </td><td><input type='password' 
-				placeholder="변경시에만 입력" class="form-control floating-label" name="newpassword"/></td>
+				placeholder="변경시에만 입력(2자 이상 20자 이하)" class="form-control floating-label" 
+				name="newpassword" maxlength="20" pattern=".{2,20}"/></td>
 			</tr>
 			<tr>
 				<td>변경할 비밀번호 확인 : </td><td><input type='password' 
-				placeholder="변경시에만 입력" class="form-control floating-label" name="newpasswordC"/></td>
+				placeholder="변경시에만 입력(위와 동일)" class="form-control floating-label" 
+				name="newpasswordC" maxlength="20" pattern=".{2,20}"/></td>
 			</tr>
 			<tr>
-				<td>메일 : </td><td><input type="email" name="email" required="required" 
-				value="<%=user.getEmail()%>"/></td>
+				<td>메일 : </td><td><input type="email" name="email" required="required" placeholder="2자 이상 40자 이하 필수"
+				value="<%=user.getEmail()%>" maxlength="40" pattern=".{2,40}"/></td>
 			</tr>
 		</table>
 		
@@ -70,7 +73,7 @@ max-width:300px;
     function checkNumber()
 		{
 		 var objEv = event.srcElement;
-		 var num ="|\"";    //입력을 막을 특수문자 기재.
+		 var num ="|\"<>{}";    //입력을 막을 특수문자 기재.
 		 event.returnValue = true;
 		  
 		 for (var i=0;i<objEv.value.length;i++)

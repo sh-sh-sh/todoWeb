@@ -32,12 +32,13 @@ public class Login extends HttpServlet {
 				HttpSession session = request.getSession();
 				session.setAttribute("userid", id);
 				request.setAttribute("name", service.getUser(id).getName());
+				System.out.println(id+"님 접속");
 				
 				
 				Cookie cookie= null;
 				if(remember!=null) {
 					cookie=new Cookie("id",java.net.URLEncoder.encode(id, "UTF-8"));
-					cookie.setMaxAge(60*60*24*30);//유효기간 한달
+					cookie.setMaxAge(60*60*24*30);//유효기간 한달(초*분*시*일)
 					response.addCookie(cookie);
 				}else {
 					cookie=new Cookie("id",null);

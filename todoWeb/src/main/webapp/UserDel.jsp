@@ -30,7 +30,7 @@ margin:auto;
 					<p>
 					<div class="ho">
 					<input type='password' required="required" 
-				placeholder="비밀번호 입력" class="form-control floating-label" name="password"/>
+				placeholder="비밀번호 입력" class="form-control floating-label" name="password" maxlength="20" pattern=".{2,20}"/>
 				</div></p>
 				<p><input type='submit' name="탈퇴" class="btn btn-danger" value="탈퇴"/>
 			<a href="index.jsp"><input type="button" value="돌아가기" class="btn btn-info"></a></p>

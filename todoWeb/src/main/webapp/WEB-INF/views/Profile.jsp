@@ -46,7 +46,7 @@ max-width:300px;
 				<td>메일 : </td><td><%=user.getEmail()%></td>
 			</tr>
 			<tr>
-				<td>등록한 할일 수 : </td><td><%=user.getTodoNum()%></td>
+				<td nowrap>등록한 할일 수 : </td><td><%=user.getTodoNum()%></td>
 			</tr>
 			<tr>
 				<td>완료한 할일 수 : </td><td><%=user.getDoneNum()%></td>

@@ -34,12 +34,15 @@
           <form action="/Login.do" method="post" >
           		<input type='hidden' name="orgPath" value="${orgPath}">
           		<%if(id!=null){ %>
-               <input type="text" name="id" id="id" class="inpt" required="required" value="<%=id%>">
+               <input type="text" name="id" id="id" class="inpt" required="required" 
+               value="<%=id%>" maxlength="20" pattern=".{2,20}">
                <%}else{ %>
-               <input type="text" name="id" id="id" class="inpt" required="required" placeholder="아이디 입력">
+               <input type="text" name="id" id="id" class="inpt" required="required" 
+               placeholder="아이디 입력" maxlength="20" pattern=".{2,20}">
                <%} %>
                <label for="id">아이디 입력</label>
-               <input type="password" name="password" id="password" class="inpt" required="required" placeholder="비밀번호 입력">
+               <input type="password" name="password" id="password" class="inpt" 
+               required="required" placeholder="비밀번호 입력" maxlength="20" pattern=".{2,20}">
      			<label for="password">비밀번호 입력</label>
                <input type="checkbox" name="remember" id="remember" class="checkbox">
                <label for="remember">Remember me</label>
@@ -55,13 +58,18 @@
         </div>
         <div class="signup-cont cont">
         <form action="/SignUp.do" method="post" >
-        	<input type="text" name="id" id="id" class="inpt" required="required" placeholder="아이디 입력"  onKeyDown="checkNumber();"/>
+        	<input type="text" name="id" id="id" class="inpt" required="required" 
+        	placeholder="아이디 (2글자 이상 20자 이하)"  maxlength="20" onKeyDown="checkNumber();" 
+        	pattern=".{2,20}"/>
            <label for="id">아이디 입력</label>
-           <input type="password" name="password" id="password" class="inpt" required="required" placeholder="비밀번호 입력">
+           <input type="password" name="password" id="password" class="inpt" required="required" 
+           placeholder="비밀번호 (2글자 이상 20자 이하)" maxlength="20" pattern=".{2,20}">
  		   <label for="password">비밀번호 입력</label>
-           <input type="text" name="name" id="name" class="inpt" required="required" placeholder="이름 입력" onKeyDown="checkNumber();">
+           <input type="text" name="name" id="name" class="inpt" required="required" 
+           placeholder="이름 (2글자 이상 20자 이하)" onKeyDown="checkNumber();" maxlength="20" pattern=".{2,20}">
            <label for="name">이름 입력</label>
-     	   <input type="email" name="email" id="email" class="inpt" required="required" placeholder="이메일 입력">
+     	   <input type="email" name="email" id="email" class="inpt" required="required" 
+     	   placeholder="이메일 (2글자 이상 40자 이하)" maxlength="40" pattern=".{2,40}">
            <label for="email">이메일 입력</label>
            <div class="submit-wrap">
                 <input type="submit" value="회원가입" class="submit">
@@ -99,7 +107,7 @@ $('.container .bg').mousemove(function(e){
 function checkNumber()
 	{
 	 var objEv = event.srcElement;
-	 var num ="|\"";    //입력을 막을 특수문자 기재.
+	 var num ="|\"<>{}";    //입력을 막을 특수문자 기재.
 	 event.returnValue = true;
 	  
 	 for (var i=0;i<objEv.value.length;i++)

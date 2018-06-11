@@ -40,14 +40,16 @@ margin:auto;}
 				<tr>
 					<td>시작일</td><td>
 					<div class="inputcss">
-					<input type="text" name="start_date" id="date-start" required="required"  class="form-control floating-label" placeholder="Start Date" value="<%=todo.getStart_date()%>">
+					<input type="text" name="start_date" id="date-start" required="required"  
+					class="form-control floating-label" placeholder="Start Date" value="<%=todo.getStart_date()%>">
 					</div>
 					</td>
 				</tr>
 				<tr>
-					<td>기한/종료일</td><td>
+					<td nowrap>기한/종료일</td><td>
 					<div class="inputcss">
-					<input type="text" name="target_date" id="date-end"  required="required" class="form-control floating-label" placeholder="End Date" value="<%=todo.getTarget_date()%>">
+					<input type="text" name="target_date" id="date-end"  required="required" 
+					class="form-control floating-label" placeholder="End Date" value="<%=todo.getTarget_date()%>">
 					</div>
 					</td>
 				</tr>
@@ -67,11 +69,15 @@ margin:auto;}
 				</tr>
 				<tr>
 					<td>제목</td><td>
-					<input type='text' name="title" class="form-control floating-label" required="required" placeholder="20자 이내로 입력하세요" value="<%=todo.getTitle()%>" onKeyDown="checkNumber();"/>
+					<input type='text' name="title" class="form-control floating-label" 
+					required="required" placeholder="1자 이상 20자 이하" value="<%=todo.getTitle()%>" 
+					onKeyDown="checkNumber();" maxlength="20" pattern=".{1,20}"/>
 					</td>
 				</tr>
 				<tr>
-					<td>내용</td><td><input type="text" name="content" class="form-control floating-label"  placeholder="입력하지 않으셔도 됩니다." value="<%=todo.getContent()%>" onKeyDown="checkNumber();"/></td>
+					<td>내용</td><td><input type="text" name="content" class="form-control floating-label"  
+					placeholder="입력하지 않으셔도 됩니다. 200글자 이하" value="<%=todo.getContent()%>" 
+					onKeyDown="checkNumber();" maxlength="200" pattern=".{,200}"/></td>
 				</tr>
 				
 			</table>
@@ -106,7 +112,7 @@ margin:auto;}
 		function checkNumber()
 		{
 		 var objEv = event.srcElement;
-		 var num ="|\"";    //입력을 막을 특수문자 기재.
+		 var num ="|\"<>{}";    //입력을 막을 특수문자 기재.
 		 event.returnValue = true;
 		  
 		 for (var i=0;i<objEv.value.length;i++)

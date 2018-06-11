@@ -34,21 +34,14 @@ public class UserDel extends HttpServlet {
 		
 		if(passAuth.authenticate(((String)request.getParameter("password")).toCharArray(), user.getPassword())) {
 			if(userService.isValidUser(id)) {
-				if(service.deleteAllTodo(id)) {
-					if(userService.deleteUser(id)) {
-						session.invalidate();
-						request.setAttribute("msg", "성공적으로 탈퇴되었습니다.");
-						request.getRequestDispatcher("index.jsp")
-								.forward(request, response);
-						return;
-					}else {
-						request.setAttribute("error", "탈퇴에 실패했습니다.");
-						request.getRequestDispatcher("/WEB-INF/views/Profile.jsp")
-								.forward(request, response);
-						return;
-					}
+				if(userService.deleteUser(id)) {
+					session.invalidate();
+					request.setAttribute("msg", "성공적으로 탈퇴되었습니다.");
+					request.getRequestDispatcher("index.jsp")
+							.forward(request, response);
+					return;
 				}else {
-					request.setAttribute("error", "탈퇴를 위한 Todo 삭제에 실패하였습니다.");
+					request.setAttribute("error", "탈퇴에 실패했습니다.");
 					request.getRequestDispatcher("/WEB-INF/views/Profile.jsp")
 							.forward(request, response);
 					return;

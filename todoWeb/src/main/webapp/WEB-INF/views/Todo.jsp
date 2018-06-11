@@ -16,7 +16,7 @@
 <style>
 .wrap{
 margin:auto;
-max-width:300px;
+max-width:400px;
 }
 </style>
 <body>
@@ -28,7 +28,12 @@ max-width:300px;
 			<font color="blue">${msg}</font>
 			<p>
 			<% String done;
-				if(todo.isDone()){done="완료";}else{done="미완료";}%>
+				if(todo.isDone()){done="완료";
+				}else{if(todo.getPast()){
+						done="기한 지남";
+					}else{
+						done="미완료";
+					}}%>
 				<%=done%>
 				<%if(!todo.isDone()){ %>
 				<a href="TodoDone.do?idx=<%=todo.getIdx()%>&done=1"><input type="button" value="완료하기" class="btn btn-xs btn-success"></a>
@@ -43,7 +48,7 @@ max-width:300px;
 				<td>내용 : </td><td><%=todo.getContent()%></td>
 			</tr>
 			<tr>
-				<td>시작일 : </td><td><%=todo.getStart_date()%></td>
+				<td nowrap>시작일 : </td><td><%=todo.getStart_date()%></td>
 			</tr>
 			<tr>
 				<td>기한일 : </td><td><%=todo.getTarget_date()%></td>

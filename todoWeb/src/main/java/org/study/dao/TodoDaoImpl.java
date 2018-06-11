@@ -17,12 +17,13 @@ public class TodoDaoImpl implements TodoService {
 	static final String USER_NAME = "sh";
 	static final String PASSWORD = "12341234";
 	
-	private static Connection getConnection() {
+	private static Connection getConnection() {//DB에 연결하는 메서드
 		Connection conn=null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn=DriverManager.getConnection(URL, USER_NAME, PASSWORD);
 		}catch(Exception e) {
+			System.out.println("DB연결 실패");
 			e.printStackTrace();
 		}
 		
@@ -30,11 +31,12 @@ public class TodoDaoImpl implements TodoService {
 	}
 
 	@Override
-	public boolean addTodo(Todo todo) {
+	public boolean addTodo(Todo todo) {//할일을 추가하고 성공 여부를 반환한다
 		int status = 0;
 		try {
 			PasswordAuthentication passAuth = new PasswordAuthentication();
-			String sql="insert into todo (user_id, category, title, content,start_date,target_date) values (?, ?, ?, ?, ?, ?)";
+			String sql="insert into todo (user_id, category, title, content,start_date,target_date) "
+					+ "values (?, ?, ?, ?, ?, ?)";
 			Connection conn=getConnection();
 			PreparedStatement ps= conn.prepareStatement(sql);
 			ps.setString(1, todo.getUser_id());
@@ -57,16 +59,10 @@ public class TodoDaoImpl implements TodoService {
 
 	@Override
 	public Todo getTodo(int idx) {
+		//idx에 해당하는 할일을 가져와 해당 할일을 Todo 객체로 반환한다
 		Todo todo=new Todo();
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			Connection conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-			
-			if (conn != null) {
-            } else {
-                System.out.println("DB연결 실패 - getTodo");
-            }
+			Connection conn = getConnection();
 
 			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM todo WHERE idx=?");
 			pstmt.setInt(1, idx);
@@ -88,9 +84,6 @@ public class TodoDaoImpl implements TodoService {
 			rs.close();
 			pstmt.close();
 			conn.close();
-		} catch (ClassNotFoundException e) {
-			// TODO �ڵ� ������ catch ���
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO �ڵ� ������ catch ���
 			e.printStackTrace();
@@ -99,17 +92,10 @@ public class TodoDaoImpl implements TodoService {
 	}
 
 	@Override
-	public boolean deleteTodo(int idx) {
+	public boolean deleteTodo(int idx) {//idx에 해당하는 할일을 삭제하고 성공 여부를 반환한다
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			Connection conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
+			Connection conn = getConnection();
 			
-			if (conn != null) {
-            } else {
-                System.out.println("DB연결 실패 - deleteTodo");
-            }
-
 			PreparedStatement pstmt = conn.prepareStatement("DELETE FROM todo WHERE idx=?");
 			pstmt.setInt(1, idx);
 			
@@ -127,70 +113,16 @@ public class TodoDaoImpl implements TodoService {
 				return false;
 			}
 			
-		} catch (ClassNotFoundException e) {
-			// TODO �ڵ� ������ catch ���
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO �ڵ� ������ catch ���
 			e.printStackTrace();
 		}
 		return false;
 	}
-	
-	public boolean deleteAllTodo(String id) {
-		int all=todoCount(id);
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			Connection conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-			
-			if (conn != null) {
-            } else {
-                System.out.println("DB연결 실패 - deleteTodo");
-            }
-
-			PreparedStatement pstmt = conn.prepareStatement("DELETE FROM todo WHERE user_id=?");
-			pstmt.setString(1, id);
-
-			int rs=pstmt.executeUpdate();
-			
-			pstmt.close();
-			conn.close();
-			if(rs==all) {
-				return true;
-			}else {
-				System.out.println(rs);
-				System.out.println("에러 - deleteAllTodo");
-				return false;
-			}
-			
-		} catch (ClassNotFoundException e) {
-			// TODO �ڵ� ������ catch ���
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO �ڵ� ������ catch ���
-			e.printStackTrace();
-		}
-		return false;
-	}
-
 	@Override
-	public boolean updateTodo(Todo todo) {
+	public boolean updateTodo(Todo todo) {//Todo 객체를 가져와 해당 할일을 업데이트(수정)하고 성공 여부를 반환함
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			Connection conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-			
-			if (conn != null) {
-            } else {
-                System.out.println("DB연결 실패 - updateTodo");
-            }
-
-//			PreparedStatement pstmt = conn.prepareStatement("UPDATE todo SET "
-//					+ "category='"+todo.getCategory()+"', title='"+todo.getTitle()
-//					+"', content='"+todo.getContent()+"', start_date='"+todo.getStart_date()
-//					+"', target_date='"+todo.getTarget_date()+"' WHERE idx="+todo.getIdx());
-				//UPDATE user SET name='',WHERE;
+			Connection conn = getConnection();
 			
 			String sql="UPDATE todo SET category=?, title=?, content=?, start_date=?, target_date=? WHERE idx=?";
 			PreparedStatement ps=conn.prepareStatement(sql);
@@ -216,10 +148,7 @@ public class TodoDaoImpl implements TodoService {
 				return false;
 			}
 			
-		} catch (ClassNotFoundException ee) {
-			// TODO �ڵ� ������ catch ���
-			ee.printStackTrace();
-		} catch (SQLException ee) {
+		}  catch (SQLException ee) {
 			// TODO �ڵ� ������ catch ���
 			ee.printStackTrace();
 		}
@@ -227,22 +156,9 @@ public class TodoDaoImpl implements TodoService {
 	}
 
 	@Override
-	public boolean isValidTodo(int idx) {
-		// TODO 자동 생성된 메소드 스텁
-		return false;
-	}
-
-	@Override
-	public boolean TodoDone(int idx, boolean done) {
+	public boolean TodoDone(int idx, boolean done) {//할일 완료 상태를 done값에 따라 바꾸고 성공 여부를 반환함
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			Connection conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-			
-			if (conn != null) {
-            } else {
-                System.out.println("DB연결 실패 - TodoDone");
-            }
+			Connection conn = getConnection();
 
 			PreparedStatement pstmt = conn.prepareStatement("UPDATE todo SET done=? WHERE idx=?");
 			pstmt.setBoolean(1, done);
@@ -262,10 +178,7 @@ public class TodoDaoImpl implements TodoService {
 				return false;
 			}
 			
-		} catch (ClassNotFoundException ee) {
-			// TODO �ڵ� ������ catch ���
-			ee.printStackTrace();
-		} catch (SQLException ee) {
+		}  catch (SQLException ee) {
 			// TODO �ڵ� ������ catch ���
 			ee.printStackTrace();
 		}
@@ -274,16 +187,10 @@ public class TodoDaoImpl implements TodoService {
 
 	@Override
 	public List<Todo> getTodoList(String id,int page, int sort, String view) {
+		//view에 해당하는 id의 할일을 page에 맞게 List에 담아 반환하는 메서드 
 		List<Todo> list=new ArrayList<Todo>();
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			Connection conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-			
-			if (conn != null) {
-            } else {
-                System.out.println("DB연결 실패 - getTodoList");
-            }
+			Connection conn = getConnection();
 			
 			PreparedStatement pstmt;
 			if(view.equals("today")) {
@@ -292,9 +199,11 @@ public class TodoDaoImpl implements TodoService {
 						+ "AND user_id =? limit ?,"+pager);
 			}else if(view.equals("week")) {
 				pstmt = conn.prepareStatement("SELECT * FROM todo WHERE "
-						+ "YEARWEEK(DATE(start_date)-1) <= YEARWEEK(DATE(now())-1) "
-						+ "AND YEARWEEK(DATE(target_date)-1) >= YEARWEEK(DATE(now())-1) "
+						+ "YEARWEEK(DATE(start_date+interval -1 day)) <= YEARWEEK(DATE(now()+interval -1 day)) "
+						+ "AND YEARWEEK(DATE(target_date+interval -1 day)) >= YEARWEEK(DATE(now()+interval -1 day)) "
 						+ "AND user_id =? limit ?,"+pager);
+				//date에 interval -1 day를 하는 이유는 yearweek의 일주일 기준이 일요일~월요일이기 때문에
+				//월요일~일요일을 같은 주로 묶으려면 각 날짜에 1일을 뺀 후 yearweek를 구해야 함
 			}else if(view.equals("month")) {
 				pstmt = conn.prepareStatement("SELECT * FROM todo WHERE YEAR(start_date) = YEAR(now()) "
 						+ "AND YEAR(target_date) = YEAR(now()) "
@@ -320,10 +229,9 @@ public class TodoDaoImpl implements TodoService {
 				String title = rs.getString("title");
 				String content = rs.getString("content");
 				String start_date = rs.getTimestamp("start_date").toString().substring(0, 11);
-				String target_date = rs.getTimestamp("target_date").toString().substring(0, 11);
+				String target_date = rs.getTimestamp("target_date").toString().substring(0, 16);
 				String create_date = rs.getTimestamp("create_date").toString().substring(0, 11);
 				boolean done = rs.getBoolean("done");
-				
 				
 				Todo todo=new Todo(idx,user_id,category,title,content,start_date,target_date,create_date,done);
 				list.add(todo);
@@ -331,9 +239,6 @@ public class TodoDaoImpl implements TodoService {
 			rs.close();
 			pstmt.close();
 			conn.close();
-		} catch (ClassNotFoundException e) {
-			// TODO �ڵ� ������ catch ���
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO �ڵ� ������ catch ���
 			e.printStackTrace();
@@ -343,18 +248,10 @@ public class TodoDaoImpl implements TodoService {
 
 	@Override
 	public int maxpage(String id,String view) {
+		//veiw에 해당하는 id의 할일이 총 몇 페이지인지 반환해줌
 		int count=0;
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			Connection conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-			
-			if (conn != null) {
-            } else {
-                System.out.println("DB연결 실패 - maxpage");
-            }
-
-//			PreparedStatement pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE user_id='"+id+"'");
+			Connection conn = getConnection();
 			
 			PreparedStatement pstmt;
 			if(view.equals("today")) {
@@ -363,8 +260,8 @@ public class TodoDaoImpl implements TodoService {
 						+ "AND user_id =?");
 			}else if(view.equals("week")) {
 				pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE "
-						+ "YEARWEEK(DATE(start_date)-1) <= YEARWEEK(DATE(now())-1) "
-						+ "AND YEARWEEK(DATE(target_date)-1) >= YEARWEEK(DATE(now())-1) "
+						+ "YEARWEEK(DATE(start_date+interval -1 day)) <= YEARWEEK(DATE(now()+interval -1 day)) "
+						+ "AND YEARWEEK(DATE(target_date+interval -1 day)) >= YEARWEEK(DATE(now()+interval -1 day)) "
 						+ "AND user_id =?");
 			}else if(view.equals("month")) {
 				pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE YEAR(start_date) = YEAR(now()) "
@@ -389,9 +286,6 @@ public class TodoDaoImpl implements TodoService {
 			rs.close();
 			pstmt.close();
 			conn.close();
-		} catch (ClassNotFoundException e) {
-			// TODO �ڵ� ������ catch ���
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO �ڵ� ������ catch ���
 			e.printStackTrace();
@@ -404,16 +298,10 @@ public class TodoDaoImpl implements TodoService {
 	}
 	
 	public String getCateName(int cat_id) {
+		//cat_id에 해당하는 카테고리 이름을 반환한다.
 		String cateName=null;
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			Connection conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-			
-			if (conn != null) {
-            } else {
-                System.out.println("DB연결 실패 - getCateName");
-            }
+			Connection conn = getConnection();
 
 			PreparedStatement pstmt = conn.prepareStatement("SELECT name FROM todo_category WHERE cat_id=?");
 			pstmt.setInt(1, cat_id);
@@ -425,9 +313,6 @@ public class TodoDaoImpl implements TodoService {
 			rs.close();
 			pstmt.close();
 			conn.close();
-		} catch (ClassNotFoundException e) {
-			// TODO �ڵ� ������ catch ���
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO �ڵ� ������ catch ���
 			e.printStackTrace();
@@ -439,17 +324,11 @@ public class TodoDaoImpl implements TodoService {
 	@SuppressWarnings("resource")
 	@Override
 	public int doneRate(String id, String view) {
-		int all=0;
-		int done=0;
+		//view에 해당하는 id의 할일중 몇퍼센트가 완료되었는지 int타입으로 반환함
+		int all=0;//총 할일 개수를 담을 변수
+		int done=0;//완료된 할일 개수를 담을 변수
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			Connection conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-			
-			if (conn != null) {
-            } else {
-                System.out.println("DB연결 실패 - maxpage");
-            }
+			Connection conn = getConnection();
 
 			PreparedStatement pstmt;
 			if(view.equals("today")) {
@@ -458,8 +337,8 @@ public class TodoDaoImpl implements TodoService {
 						+ "AND user_id =?");
 			}else if(view.equals("week")) {
 				pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE "
-						+ "YEARWEEK(DATE(start_date)-1) <= YEARWEEK(DATE(now())-1) "
-						+ "AND YEARWEEK(DATE(target_date)-1) >= YEARWEEK(DATE(now())-1) "
+						+ "YEARWEEK(DATE(start_date+interval -1 day)) <= YEARWEEK(DATE(now()+interval -1 day)) "
+						+ "AND YEARWEEK(DATE(target_date+interval -1 day)) >= YEARWEEK(DATE(now()+interval -1 day)) "
 						+ "AND user_id =?");
 			}else if(view.equals("month")) {
 				pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE YEAR(start_date) = YEAR(now()) "
@@ -481,15 +360,14 @@ public class TodoDaoImpl implements TodoService {
 				return 0;
 			}
 
-//			pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE done=true AND user_id='"+id+"'");//아직
 			if(view.equals("today")) {
 				pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE done=true AND "
 						+ "DATE(start_date) <= DATE(NOW()) AND DATE(target_date) >= DATE(NOW()) "
 						+ "AND user_id =?");
 			}else if(view.equals("week")) {
 				pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE done=true AND "
-						+ "YEARWEEK(DATE(start_date)-1) <= YEARWEEK(DATE(now())-1) "
-						+ "AND YEARWEEK(DATE(target_date)-1) >= YEARWEEK(DATE(now())-1) "
+						+ "YEARWEEK(DATE(start_date+interval -1 day)) <= YEARWEEK(DATE(now()+interval -1 day)) "
+						+ "AND YEARWEEK(DATE(target_date+interval -1 day)) >= YEARWEEK(DATE(now()+interval -1 day)) "
 						+ "AND user_id =?");
 			}else if(view.equals("month")) {
 				pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE done=true AND "
@@ -512,9 +390,6 @@ public class TodoDaoImpl implements TodoService {
 			rs.close();
 			pstmt.close();
 			conn.close();
-		} catch (ClassNotFoundException e) {
-			// TODO �ڵ� ������ catch ���
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO �ڵ� ������ catch ���
 			e.printStackTrace();
@@ -525,16 +400,10 @@ public class TodoDaoImpl implements TodoService {
 
 	@Override
 	public boolean isCorrectUser(String id, int todoIdx) {
+		//todoidx에 해당하는 todo의 user_id가 id와 동일한지 체크해 반환함
 		boolean rt=false;
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			Connection conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-			
-			if (conn != null) {
-            } else {
-                System.out.println("DB연결 실패 - getCateName");
-            }
+			Connection conn = getConnection();
 
 			PreparedStatement pstmt = conn.prepareStatement("SELECT user_id FROM todo WHERE idx=?");
 			pstmt.setInt(1, todoIdx);
@@ -549,9 +418,6 @@ public class TodoDaoImpl implements TodoService {
 			rs.close();
 			pstmt.close();
 			conn.close();
-		} catch (ClassNotFoundException e) {
-			// TODO �ڵ� ������ catch ���
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO �ڵ� ������ catch ���
 			e.printStackTrace();
@@ -562,16 +428,10 @@ public class TodoDaoImpl implements TodoService {
 
 	@Override
 	public int todoCount(String id) {
+		//id에 해당하는 유저의 등록된 할일 개수를 반환함
 		int rt=-999;
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			Connection conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-			
-			if (conn != null) {
-            } else {
-                System.out.println("DB연결 실패 - getCateName");
-            }
+			Connection conn = getConnection();
 
 			PreparedStatement pstmt = conn.prepareStatement("SELECT count(*) FROM todo WHERE user_id =?");
 			pstmt.setString(1, id);
@@ -583,9 +443,6 @@ public class TodoDaoImpl implements TodoService {
 			rs.close();
 			pstmt.close();
 			conn.close();
-		} catch (ClassNotFoundException e) {
-			// TODO �ڵ� ������ catch ���
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO �ڵ� ������ catch ���
 			e.printStackTrace();
@@ -596,16 +453,10 @@ public class TodoDaoImpl implements TodoService {
 
 	@Override
 	public int doneCount(String id) {
+		//id에 해당하는 유저의 모든 할일 중 완료된 할일 개수를 반환함
 		int rt=-999;
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			Connection conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-			
-			if (conn != null) {
-            } else {
-                System.out.println("DB연결 실패 - getCateName");
-            }
+			Connection conn = getConnection();
 
 			PreparedStatement pstmt = 
 					conn.prepareStatement("SELECT count(*) FROM todo WHERE done=true AND user_id =?");
@@ -618,9 +469,6 @@ public class TodoDaoImpl implements TodoService {
 			rs.close();
 			pstmt.close();
 			conn.close();
-		} catch (ClassNotFoundException e) {
-			// TODO �ڵ� ������ catch ���
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO �ڵ� ������ catch ���
 			e.printStackTrace();

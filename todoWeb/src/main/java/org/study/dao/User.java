@@ -48,9 +48,9 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String toString() {
-		return "<br>["+id+"]"+name+" | "+email;
-	}
+//	public String toString() {
+//		return "<br>["+id+"]"+name+" | "+email;
+//	}
 	
 	public int getTodoNum() {
 		return service.todoCount(id);

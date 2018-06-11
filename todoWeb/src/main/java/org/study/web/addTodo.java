@@ -41,12 +41,17 @@ public class addTodo extends HttpServlet {
 		todo.setTitle(request.getParameter("title"));
 		todo.setContent(request.getParameter("content"));
 		
-		if(todo.getTitle().contains("\"")||todo.getTitle().contains("|")
-				||todo.getContent().contains("\"")||todo.getContent().contains("|")) {
-			request.setAttribute("error", "\"나 |는 입력하실 수 없습니다.");
-			request.getRequestDispatcher("addTodo.jsp").forward(request, response);
-			return;
+		String ex="\"|<>{}";
+		
+		for(int i=0;i<ex.length();i++) {
+			if(todo.getTitle().contains(Character.toString(ex.charAt(i)))
+					||todo.getContent().contains(Character.toString(ex.charAt(i)))) {
+				request.setAttribute("error", "\",|,<,>,{,}는 입력하실 수 없습니다.");
+				request.getRequestDispatcher("addTodo.jsp").forward(request, response);
+				return;
+			}
 		}
+		
 		if(service.addTodo(todo)) {
 //			request.setAttribute("msg", "투두가 추가되었습니다.");
 			response.sendRedirect("TodoList.do?page=1&view=all");

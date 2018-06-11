@@ -47,7 +47,10 @@ public class LoginFilter implements Filter {
 			path.append("?").append(req.getQueryString());
 		}
 		
-		if (path.toString().startsWith("/webjars") ||path.toString().startsWith("/css") || path.toString().startsWith("/font") || path.toString().startsWith("/js")) {
+		if (path.toString().startsWith("/webjars") 
+				||path.toString().startsWith("/css") 
+				|| path.toString().startsWith("/font") 
+				|| path.toString().startsWith("/js")) {
 			chain.doFilter(request, response);
 			
 			return;
@@ -64,6 +67,13 @@ public class LoginFilter implements Filter {
 		HttpSession session = ((HttpServletRequest)request).getSession();
 		
 		if(session.getAttribute("userid") !=null) {
+			if(!service.isValidUser((String)(session.getAttribute("userid")))) {
+				session.invalidate();
+				request.setAttribute("error", "유효하지 않는 아이디로 접속되어 있습니다. 다시 로그인하세요.");
+				request.setAttribute("orgPath", path.toString());
+				request.getRequestDispatcher("login.jsp").forward(request, response);
+				return;
+			}
 			chain.doFilter(request, response);
 		}else {
 			request.setAttribute("error", "먼저 로그인하셔야 합니다.");
