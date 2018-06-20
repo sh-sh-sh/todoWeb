@@ -47,7 +47,7 @@ public class LoginFilter implements Filter {
 			path.append("?").append(req.getQueryString());
 		}
 		
-		if (path.toString().startsWith("/webjars") 
+		if (path.toString().startsWith("/webjars") //웹 페이지가 아닌 경우 넘긴다
 				||path.toString().startsWith("/css") 
 				|| path.toString().startsWith("/font") 
 				|| path.toString().startsWith("/js")) {
@@ -56,7 +56,7 @@ public class LoginFilter implements Filter {
 			return;
 		}
 		
-		for (String url : excludedUrls) {
+		for (String url : excludedUrls) {//web.xml에 등록한 값을 돌며 일치하는 경우 넘긴다
 			if (path.toString().equals(url)) {
 				chain.doFilter(request, response);
 				
@@ -66,16 +66,16 @@ public class LoginFilter implements Filter {
 		
 		HttpSession session = ((HttpServletRequest)request).getSession();
 		
-		if(session.getAttribute("userid") !=null) {
-			if(!service.isValidUser((String)(session.getAttribute("userid")))) {
+		if(session.getAttribute("userid") !=null) {//이미 로그인 되어 있는 경우
+			if(!service.isValidUser((String)(session.getAttribute("userid")))) {//유효한 아이디가 아니면 로그아웃시킨다
 				session.invalidate();
 				request.setAttribute("error", "유효하지 않는 아이디로 접속되어 있습니다. 다시 로그인하세요.");
 				request.setAttribute("orgPath", path.toString());
 				request.getRequestDispatcher("login.jsp").forward(request, response);
 				return;
-			}
+			}//유효한 아이디일 경우 넘어감
 			chain.doFilter(request, response);
-		}else {
+		}else {//로그인해야 할 경우 로그인 페이지로 이동
 			request.setAttribute("error", "먼저 로그인하셔야 합니다.");
 			request.setAttribute("orgPath", path.toString());
 			request.getRequestDispatcher("login.jsp").forward(request, response);

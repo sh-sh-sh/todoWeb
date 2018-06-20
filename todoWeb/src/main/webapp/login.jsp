@@ -53,6 +53,7 @@
 				<%} %>
                <div class="submit-wrap">
                     <input type="submit" value="로그인" class="submit">
+                    <a href="#" class="more"></a>
                </div>
 	        </form>
         </div>
@@ -73,7 +74,7 @@
            <label for="email">이메일 입력</label>
            <div class="submit-wrap">
                 <input type="submit" value="회원가입" class="submit">
-                <a href="#" class="more">이용 약관</a>
+                <a href="#" class="more"></a>
            </div>
         </form>
       </div>

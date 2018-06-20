@@ -21,6 +21,8 @@ import javax.crypto.spec.PBEKeySpec;
  * @see <a href="http://stackoverflow.com/a/2861125/3474">StackOverflow</a>
  */
 public final class PasswordAuthentication
+
+//패스워드 암호화를 위한 클래스
 {
 
   /**

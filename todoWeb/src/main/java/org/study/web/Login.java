@@ -36,11 +36,11 @@ public class Login extends HttpServlet {
 				
 				
 				Cookie cookie= null;
-				if(remember!=null) {
+				if(remember!=null) {//remember에 체크했을 경우 쿠키에 아이디 저장
 					cookie=new Cookie("id",java.net.URLEncoder.encode(id, "UTF-8"));
 					cookie.setMaxAge(60*60*24*30);//유효기간 한달(초*분*시*일)
 					response.addCookie(cookie);
-				}else {
+				}else {//체크하지 않았을 경우 쿠키 무효화
 					cookie=new Cookie("id",null);
 					cookie.setMaxAge(0);
 					response.addCookie(cookie);

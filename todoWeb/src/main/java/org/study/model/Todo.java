@@ -77,13 +77,14 @@ public class Todo {
 		this.start_date = start_date;
 	}
 	public String getStart_date_listver() {
+		//리스트에서 날짜까지만 출력하기 위해 잘라서 반환함
 		return start_date.substring(2,10);
 	}
 	public String getTarget_date() {
 		return target_date;
 	}
 	public String getTarget_date_listver() {
-		//리스트 버전에서 분까지만 출력하기 위해 target_date를 분까지 잘라 반환함
+		//리스트에서 분까지만 출력하기 위해 target_date를 분까지 잘라 반환함
 		return target_date.substring(2,16);
 	}
 	public void setTarget_date(String target_date) {
